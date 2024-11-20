@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 
-   //charger de chaine:
+  
 
    char *chargerChaine(int N){
 
@@ -21,7 +21,7 @@
 
 
 
-     printf("donner la chaine:");
+     printf("entrer la chaine:");
 
 
     for(i=0;i<N;i++){
@@ -37,7 +37,7 @@
    return p;
    }
 
-   //langeur de chaine :
+   
 
 int  Longueur (char *ch){
 
@@ -111,7 +111,7 @@ int main(){
 char *ch;
 int n;
 int m;
-printf("donner la taille maximale de la chaine :");
+printf("entrer la taille maximale de la chaine :");
 scanf("%d",&n);
 
 
