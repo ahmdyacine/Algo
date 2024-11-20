@@ -4,7 +4,6 @@
 
    char *chargerChaine(int N){
 
-
          char *p=malloc((N+1)*sizeof(char));
    if(p==NULL){
 
