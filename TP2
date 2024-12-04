@@ -20,14 +20,72 @@ char *Chargerchaine(int N)
  }
  return charger;
 }
+int longeurchain(char *ch){
+char *p;
+p = ch;
+int i;
+while( p != '\0'){
+    i++;
+    p+1;
+}
+
+ return i;
+}
+void chargertab(char tab[],char *p){
+  int i = 0;
+    while(p!='\0'){
+        tab[i] = p;
+        i++;
+        p+1;
+    }
+    
+    
+}
+void inversertab(char tab[],char T[],int m){
+    int i;
+    int j=0;
+    for(i=m;i>=0;i--){
+        T[j] = tab[i];
+        j++;
+        
+    }
+    
+    
+}
+        void affichertab(char tab[],int m){
+
+        int i=0;
+
+        for(i=0;i<m;i++){
+
+            printf(" %c",tab[i]);
+
+        }
+        }
 
 int main() {
+char *ch;
 int n;
-printf("entrer le maximun taille de mot :");
+int m;
+printf("donner la taille maximale de la chaine :");
 scanf("%d",&n);
-char *p;
-p = Chargerchaine(n);
-puts(p);
 
-    return 0;
+
+ch=chargerChaine(n);
+
+ m=Longueur(ch);
+
+ char tab[m],T[m];
+
+ chargertab(ch,tab);
+
+ affichertab(tab,m);
+
+ inversertab(tab,T,m);
+
+ affichertab(T,m);
+
+ free(ch);
+
+return 0;
 }
