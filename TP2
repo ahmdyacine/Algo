@@ -1,1 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+char *Chargerchaine(int N)
+{
 
+ char *charger = malloc((N+1)*sizeof(char));
+ if(charger == NULL){
+     printf("n'est pas de espace on memoire");
+     return NULL; 
+ }else{
+     int i;
+ printf("saisie le chaine:");
+ for(i = 0;i < N;i++){
+ 
+     scanf(" %c",charger[i]);
+ }
+    charger[N] = '\0';
+    
+ }
+ return charger;
+}
+
+int main() {
+int n;
+printf("entrer le maximun taille de mot :");
+scanf("%d",&n);
+char *p;
+p = Chargerchaine(n);
+puts(p);
+
+    return 0;
+}
