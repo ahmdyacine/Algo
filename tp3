@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct element {
+    int val;
+    struct element *suivant;
+}element;
+
+
+// cration d'un liste vide
+
+element *creerlist (){
+    element *tete = NULL;
+    return tete;
+}
+
+// charger le liste 
+element *chargerlistr(int T[],int n,element *L) {
+  element *p, *q;
+  int i;
+
+  for (i = 0; i < n; i++) {
+    p = (element *) malloc(sizeof(element));
+    if (p == NULL) {
+      printf("Erreur d'allocation mémoire\n");
+      exit(1);
+    }
+    p->val = T[i];
+    p->suivant = NULL;
+
+    if (L == NULL)
+      L = p;
+    else {
+      q = L;
+      while (q->suivant!= NULL)
+        q = q->suivant;
+      q->suivant = p;
+    }
+  }
+
+  return L;
+}
+
+// Affichage d'un liste
+
+void Afficherlist(element *tete){
+ element *courant;
+    courant = tete;
+    while(courant != NULL){
+        printf("%d->",courant->val);
+        courant = courant-> suivant;
+    }
+    printf("NULL\n");
+}
+
+//Ajoute en Debut
+
+element *ajouterEnDebut(element *L,int n) {
+element *temp =  (element *) malloc(sizeof(element));
+temp ->suivant = L;
+temp ->val = n;
+
+return temp;
+}
+
+//supprimer en fin
+
+element *supprimerEnFin(element *L) {
+element *courant;
+courant = L;
+while(courant->suivant->suivant!= NULL){
+
+    courant = courant->suivant;
+}
+free(courant->suivant);
+courant->suivant = NULL;
+return L;
+}
+
+
+//vider liste
+
+void viderliste(element *L) {
+  element *temp;
+  while(L != NULL) {
+    temp = L;
+    L = L->suivant;
+    free(temp);
+  }
+  printf("la liste est vider");
+    }
+
+
+
+
+int main(){
+int Tab[10]={1,3,5,7,8,10,9,11,13,20};
+element *liste = creerlist();
+element *L = chargerlistr(Tab, 10, liste);
+Afficherlist(L);
+element *L1 = supprimerEnFin(L);
+Afficherlist(L1);
+element *L2 = ajouterEnDebut(L1, 40);
+Afficherlist(L2);
+viderliste(L2);
+return 0;
+
+}
