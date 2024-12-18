@@ -23,7 +23,7 @@ char *Chargerchaine(int N) {
         return NULL;
     }
 
-    // Find and remove trailing newline, if any
+    // Find and remove trailing newline
     for (int i = 0; i < N + 1; i++) {
         if (p[i] == '\n') {
             p[i] = '\0';
