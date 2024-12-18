@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Function to allocate memory and read a string
+// charger la chaine
 char *Chargerchaine(int N) {
     if (N <= 0) {
         printf("Invalid input size.\n");
         return NULL;
     }
 
-    char *p = (char *)malloc((N + 1) * sizeof(char)); // Allocate memory with extra space for '\0'
+    char *p = (char *)malloc((N + 1) * sizeof(char));
     if (p == NULL) {
         printf("Erreur d'allocation mémoire\n");
-        return NULL; // Return NULL instead of exiting
+        return NULL;
     }
 
     printf("Entrer une chaine de caracteres  : ");
@@ -20,7 +20,7 @@ char *Chargerchaine(int N) {
     if (fgets(p, N + 1, stdin) == NULL) {
         printf("Erreur de lecture\n");
         free(p);
-        return NULL; // Return NULL instead of exiting
+        return NULL;
     }
 
     // Find and remove trailing newline, if any
@@ -37,7 +37,8 @@ char *Chargerchaine(int N) {
     return p;
 }
 
-// Function to calculate string length
+
+// la longueur de la chaine
 int longueur(char *p) {
     int i = 0;
     while (p[i] != '\0') {
@@ -68,7 +69,7 @@ void chargerTab(char *p,char Tab[]) {
 
 
 
-//inverser tableaux
+//Inverser tableaux
 void inverserTab(char Tab[],char T[],int m) {
 
  int i;
