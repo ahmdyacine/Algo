@@ -17,3 +17,33 @@ int main() {
 
     return 0;
 }
+ex2
+#include <stdio.h>
+#include <pthread.h>
+
+typedef struct {
+    int id;
+    char msg[50];
+} ThreadData;
+
+void* f(void *arg) {
+    ThreadData *d = (ThreadData*)arg;
+    printf("Thread %d : %s\n", d->id, d->msg);
+    return NULL;
+}
+
+int main() {
+    pthread_t t[5];
+    ThreadData data[5];
+
+    for(int i = 0; i < 5; i++) {
+        data[i].id = i;
+        sprintf(data[i].msg, "Message du thread");
+        pthread_create(&t[i], NULL, f, &data[i]);
+    }
+
+    for(int i = 0; i < 5; i++)
+        pthread_join(t[i], NULL);
+
+    return 0;
+}
