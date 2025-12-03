@@ -52,3 +52,18 @@ int main() {
     wait(NULL);
     return 0;
 }
+ex4 
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main() {
+    pid_t p = fork();
+    if(p == 0) {
+        char *args[] = {"ls", "-l", "tp1.pdf", NULL};
+        execvp("ls", args);
+        return 1;
+    }
+    wait(NULL);
+    return 0;
+}
