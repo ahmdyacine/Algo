@@ -17,3 +17,22 @@ int main() {
     printf("Parent PID=%d terminé\n", getpid());
     return 0;
 }
+
+
+ex 2
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main() {
+    pid_t p = fork();
+    if(p < 0) {
+        printf("Erreur: fork a échoué\n");
+        return 1;
+    }
+    if(p == 0)
+        return 0;
+
+    wait(NULL);
+    return 0;
+}
