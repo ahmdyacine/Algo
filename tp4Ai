@@ -98,4 +98,60 @@ class SystemeExpert:
         for step in self.historique_trace:
             print(f"الدورة {step['cycle']}: تم تفعيل القاعدة رقم {step['regle']} -> أُضيفت الحقيقة: {step['fait_ajoute']}")
         print("="*30 + "\n")
+      # التمرين 3: تنفيذ التسلسل الخلفي
+    def chainageArriere(self, but):
+        """
+        تحاول هذه الدالة إثبات الهدف (but) بالعودة للخلف.
+        تعيد True إذا تم إثبات الهدف، و False إذا لم يمكن إثباته.
+        """
+        print(f"محاولة إثبات الهدف: {but}")
+
+        # 1. القاعدة الأساسية: إذا كان الهدف موجوداً فعلياً في الحقائق، فقد انتهينا بنجاح
+        if but in self.faits:
+            print(f"الهدف '{but}' موجود كحقيقة معروفة.")
+            return True
+
+        # 2. البحث عن القواعد التي تعطي هذا الهدف كنتيجة (Consequence)
+        rules_for_goal = [r for r in self.regles if self.consequenceRegle(r) == but]
+
+        if not rules_for_goal:
+            print(f"لا توجد قواعد تؤدي إلى '{but}'.")
+            return False
+
+        # 3. محاولة إثبات شروط أي قاعدة من القواعد التي وجدناها
+        for regle in rules_for_goal:
+            shourout = self.conditionsRegle(regle)
+            print(f"لإثبات '{but}'، يجب إثبات الشروط التالية: {shourout}")
+            
+            # نستخدم "الدوال العودية": نحاول إثبات كل شرط (c) وكأنه هدف جديد
+            tout_prouve = True
+            for c in shourout:
+                if not self.chainageArriere(c): # استدعاء ذاتي للدالة
+                    tout_prouve = False
+                    break # إذا فشل شرط واحد، ننتقل للقاعدة التالية
+            
+            if tout_prouve:
+                # إذا أثبتنا كل الشروط، نضيف الهدف للحقائق لكي لا نعيد إثباته لاحقاً
+                self.ajouteFait(but)
+                return True
+
+        return False
+
+
+#ex 2
+# 1. إنشاء الكائن
+expert = SystemeExpert()
+
+# 2. إضافة القواعد
+expert.ajouteRegle(["A", "B"], "C") # قاعدة 1
+expert.ajouteRegle(["C"], "D")      # قاعدة 2
+
+# 3. تشغيل المحرك بحقائق ابتدائية
+حقائق_البداية = ["A", "B"]
+النتيجة = expert.chainageAvantSimple(حقائق_البداية)
+
+# 4. عرض النتائج والتتبع
+expert.afficheFaits()
+expert.trace()
+
 
