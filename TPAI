@@ -1,0 +1,79 @@
+#1 Knowledge Base (Dictionary Version)
+rules_dict = [
+    {"if": ["A", "B"], "then": "C"},
+    {"if": ["C"], "then": "D"},
+    {"if": ["D", "E"], "then": "F"}
+]
+
+facts = ["A", "B", "E"]
+# 2forward chaining algorithm
+def forward_chaining_dict(rules, known_facts):
+    inferred_new = True
+    while inferred_new:
+        inferred_new = False
+        for rule in rules:
+            conclusion = rule["then"]
+            if conclusion not in known_facts:
+                # Check if all conditions (if) are met
+                if all(condition in known_facts for condition in rule["if"]):
+                    known_facts.append(conclusion)
+                    print(f"Inferred: {conclusion}")
+                    inferred_new = True
+    return known_facts
+
+print("--- Forward Chaining (Dict) ---")
+final_facts = forward_chaining_dict(rules_dict, facts[:])
+print(f"Final Knowledge Base: {final_facts}")
+
+#3 Knowledge Base (Tuple of Lists Version)
+rules_tuple = (
+    (["A", "B"], "C"),
+    (["C"], "D"),
+    (["D", "E"], "F")
+)
+
+facts = ["A", "B", "E"]
+#4. Forward Chaining with a Goal
+def forward_chaining_goal(rules, known_facts, goal):
+    inferred_new = True
+    while inferred_new:
+        if goal in known_facts:
+            return True
+        
+        inferred_new = False
+        for conditions, conclusion in rules:
+            if conclusion not in known_facts:
+                if all(c in known_facts for c in conditions):
+                    known_facts.append(conclusion)
+                    inferred_new = True
+    return goal in known_facts
+
+print("\n--- Forward Chaining with Goal 'F' ---")
+found = forward_chaining_goal(rules_tuple, facts[:], "F")
+print(f"Goal reached: {found}")
+
+#5. Backward Chaining
+def backward_chaining(rules, known_facts, goal):
+    
+    if goal in known_facts:
+        return True
+    
+    
+    for rule in rules:
+        
+        if isinstance(rule, dict):
+            conditions, conclusion = rule["if"], rule["then"]
+        else:
+            conditions, conclusion = rule[0], rule[1]
+            
+        if conclusion == goal:
+            
+            if all(backward_chaining(rules, known_facts, c) for c in conditions):
+                return True
+                
+    return False
+
+print("\n--- Backward Chaining ---")
+goal_to_test = "F"
+can_prove = backward_chaining(rules_tuple, facts, goal_to_test)
+print(f"Can we prove '{goal_to_test}'? {can_prove}")
