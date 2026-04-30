@@ -1,0 +1,54 @@
+#exercie 1
+class SystemeExpert:
+
+    # 1. المشيد (Constructor): تهيئة القوائم
+    def __init__(self):
+        self.faits = []   # قائمة الحقائق
+        self.regles = []  # قائمة القواعد
+
+    # 2. إدارة الحقائق (Gestion des faits)
+    def afficheFaits(self):
+        """تطبع قائمة الحقائق الحالية"""
+        print(f"قائمة الحقائق الحالية: {self.faits}")
+
+    def ajouteFait(self, fait):
+        """تضيف حقيقة جديدة إذا لم تكن موجودة مسبقاً"""
+        if fait not in self.faits:
+            self.faits.append(fait)
+            return True
+        return False
+
+    def initDBs(self):
+        """تصفير قاعدة البيانات (الحقائق والقواعد)"""
+        self.faits = []
+        self.regles = []
+        print("تم مسح كافة البيانات.")
+
+    # 3. إدارة القواعد (Gestion des règles)
+    def ajouteRegle(self, conditions, consequence):
+        """إضافة قاعدة جديدة بالشكل [ [شروط], نتيجة ]"""
+        self.regles.append([conditions, consequence])
+
+    def afficheRegles(self):
+        """عرض القواعد مع أرقامها"""
+        print("القواعد الموجودة:")
+        for i, regle in enumerate(self.regles):
+            print(f"قاعدة رقم {i+1}: إذا تحقق {regle[0]} فإن النتيجة {regle[1]}")
+
+    def conditionsRegle(self, regle):
+        """إرجاع قائمة الشروط لقاعدة معينة"""
+        return regle[0]
+
+    def consequenceRegle(self, regle):
+        """إرجاع نتيجة قاعدة معينة"""
+        return regle[1]
+
+    def satisfaitUneCondition(self, regle, le_fait):
+        """التحقق مما إذا كان حقيقة معينة هي جزء من شروط القاعدة"""
+        return le_fait in self.conditionsRegle(regle)
+
+    def satisfaitConditions(self, regle):
+        """التحقق مما إذا كانت كل شروط القاعدة موجودة في قائمة الحقائق"""
+        conditions = self.conditionsRegle(regle)
+        # هنا نستخدم نفس المنطق (all) الذي شرحناه سابقاً
+        return all(c in self.faits for c in conditions)
