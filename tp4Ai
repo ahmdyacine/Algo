@@ -52,3 +52,50 @@ class SystemeExpert:
         conditions = self.conditionsRegle(regle)
         # هنا نستخدم نفس المنطق (all) الذي شرحناه سابقاً
         return all(c in self.faits for c in conditions)
+    # 4. محرك الاستدلال (التسلسل الأمامي)
+    def chainageAvantSimple(self, faitsInitiaux):
+        # تصفير الحقائق وإضافة الحقائق الابتدائية
+        self.faits = list(faitsInitiaux)
+        historique = [] # لتخزين سجل التتبع (Trace)
+        cycle = 0
+        
+        continuer = True
+        while continuer:
+            continuer = False
+            cycle += 1
+            
+            # نمر على كل القواعد المخزنة في self.regles
+            for i, regle in enumerate(self.regles):
+                consequence = self.consequenceRegle(regle)
+                
+                # إذا كانت القاعدة محققة (شروطها في الحقائق) والنتيجة غير معروفة
+                if consequence not in self.faits:
+                    if self.satisfaitConditions(regle):
+                        # إضافة الحقيقة الجديدة
+                        self.ajouteFait(consequence)
+                        
+                        # تسجيل هذه الخطوة في التاريخ (Trace)
+                        historique.append({
+                            "cycle": cycle,
+                            "regle": i + 1,
+                            "fait_ajoute": consequence
+                        })
+                        
+                        continuer = True # وجدنا شيئاً جديداً، سنحاول مرة أخرى
+        
+        # حفظ التاريخ في المتغير self.historique لاستخدامه في دالة trace
+        self.historique_trace = historique
+        return self.faits
+
+    # 5. وظيفة التتبع (Trace)
+    def trace(self):
+        print("\n" + "="*30)
+        print("سجل تتبع العمليات (Trace):")
+        if not hasattr(self, 'historique_trace') or not self.historique_trace:
+            print("لا يوجد تاريخ مسجل. يرجى تشغيل المحرك أولاً.")
+            return
+            
+        for step in self.historique_trace:
+            print(f"الدورة {step['cycle']}: تم تفعيل القاعدة رقم {step['regle']} -> أُضيفت الحقيقة: {step['fait_ajoute']}")
+        print("="*30 + "\n")
+
